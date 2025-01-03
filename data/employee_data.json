@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "preethi",
+        "position": "Software Developer",
+        "salary": "6000",
+        "skills": [
+            "Python",
+            "java",
+            "HTML",
+            "CSS",
+            "FLASK"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Balaji",
+        "position": "SAP BTP Developer",
+        "salary": "34567",
+        "skills": [
+            "BTP",
+            "Fiori",
+            "cloud"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "kavin",
+        "position": "Software Developer",
+        "salary": "8900",
+        "skills": [
+            "Angular",
+            "html",
+            "java"
+        ]
+    }
+]
