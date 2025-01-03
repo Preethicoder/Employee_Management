@@ -5,7 +5,20 @@ from storage.employee_storage import STORAGE
 
 # Initialize employee ID
 employee_id_counter = 0
+class EmployeeNotFoundError(Exception):
+    """Exception raised when an employee is not found in the JSON."""
+    def __init__(self,emp_id,message="Employee not found"):
+        self.emp_id = emp_id
+        self.message = f"{message}: ID{emp_id}"
+        super().__init__(self.message)
 
+class InvalidEmployeeDataError(Exception):
+    """Exception raised for invalid employee data."""
+
+    def __init__(self,field,message="Invalid data provided"):
+        self.field = field
+        self.message = f"{message}: {field}"
+        super().__init__(self.message)
 
 class STORAGEJSON(STORAGE):
     """
@@ -68,6 +81,10 @@ class STORAGEJSON(STORAGE):
 
         """
         emp_id = self.get_emp_id()
+        if not name:
+            raise InvalidEmployeeDataError("name","Name cannot be empty")
+        if salary <=0:
+            raise InvalidEmployeeDataError("salary","Salary should be greater than zero")
         emp_data = {
             "id": emp_id,
             "name": name,
@@ -86,7 +103,7 @@ class STORAGEJSON(STORAGE):
         emp_data = self.load_from_file()
         new_data = [data for data in emp_data if data["id"] != emp_id]
         if len(emp_data) == len(new_data):
-            print(f"Employee with ID {emp_id} not found.")
+            raise EmployeeNotFoundError(emp_id)
         else:
             print(f"Employee with ID {emp_id} removed.")
 
@@ -107,7 +124,7 @@ class STORAGEJSON(STORAGE):
                 flag = True
                 emp["salary"] = salary
         if not flag:
-            print("Given Employee ID not present.")
+            raise EmployeeNotFoundError(emp_id)
         else:
             print("Employee salary updated successfully.")
         self.save_to_file(emp_data)
@@ -129,7 +146,7 @@ class STORAGEJSON(STORAGE):
                     print(f"ID: {emp['id']}, Name: {emp['name']}, Position: {emp['position']}, Salary: {emp['salary']}")
 
         if not flag:
-            print("Employee with given skill not found.")
+            raise InvalidEmployeeDataError("skill","Employee with given skill not found")
 
     def find_by_position(self, position):
         """
@@ -147,7 +164,7 @@ class STORAGEJSON(STORAGE):
                     f"Position: {emp['position']}, "
                     f"Skills: {emp['skills']}, Salary: {emp['salary']}")
         if not flag:
-            print("Employee with given position not found.")
+           raise InvalidEmployeeDataError("position","employee with given position not found")
 
     def list_all_employees(self):
         """

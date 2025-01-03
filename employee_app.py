@@ -1,5 +1,7 @@
 import sys
 
+from storage.storage_json import EmployeeNotFoundError, InvalidEmployeeDataError
+
 DISPLAY_MENU = """********** My Employees Database **********
 
 Menu:
@@ -27,25 +29,40 @@ class EmployeeApp:
         position = input("Enter Employee Position :")
         skills = input("Enter Employee skills :")
         salary = input("Enter Employee Salary :")
-        self._storage.add_employee(name, position, salary, skills.split(","))
-        print("Employee Added Successfully")
+        try:
+          self._storage.add_employee(name, position, salary, skills.split(","))
+          print("Employee Added Successfully")
+        except InvalidEmployeeDataError as e:
+            print(e)
 
     def _command_remove_employee(self):
         delete_id = int(input("Enter Employee id to be deleted:"))
-        self._storage.remove_employee(delete_id)
+        try:
+         self._storage.remove_employee(delete_id)
+        except EmployeeNotFoundError as e:
+            print(e)
 
     def _command_search_employee_position(self):
         position = input("Enter position to be searched:")
-        self._storage.find_by_position(position)
+        try:
+         self._storage.find_by_position(position)
+        except InvalidEmployeeDataError as e:
+            print(e)
 
     def _command_search_employee_skill(self):
         skill = input("Enter skill to be searched:")
-        self._storage.find_by_skill(skill)
+        try :
+         self._storage.find_by_skill(skill)
+        except InvalidEmployeeDataError as e:
+            print(e)
 
     def _command_update_employee(self):
         update_id = int(input("Enter Employee Id to be updated:"))
         salary = input("Enter the salary to be updated")
-        self._storage.update_salary(update_id, salary)
+        try :
+         self._storage.update_salary(update_id, salary)
+        except EmployeeNotFoundError as e:
+            print(e)
 
     def _command_list_employees(self):
         data = self._storage.list_all_employees()
