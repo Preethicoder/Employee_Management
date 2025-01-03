@@ -21,6 +21,7 @@ This project is a Python-based application for managing employee records using a
    git clone https://github.com/Preethicoder/employee-management-system.git  
    cd employee-management-system  
 2. Run the program:
+    ```bash
     python main.py
    
 ## Usage
